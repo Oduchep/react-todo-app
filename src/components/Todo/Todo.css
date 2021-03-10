@@ -1,0 +1,226 @@
+.icons {
+	width: 20px;
+	height: 20px;
+}
+
+.cross {
+	width: 15px;
+	height: 15px;
+}
+
+.line-through {
+	text-decoration: line-through;
+}
+
+.hover:hover {
+	cursor: pointer;
+}
+
+.header-light {
+	background-image: url(../../assets/images/bg-desktop-light.jpg);
+	height: 250px;
+}
+.header-dark {
+	background-image: url(../../assets/images/bg-desktop-dark.jpg);
+	height: 250px;
+}
+
+.main-light,
+.main-dark {
+	position: relative;
+	height: 100vh;
+}
+.main-dark {
+	background: #000;
+}
+
+.todo-container {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translate(-50%, 0);
+	width: 500px;
+	margin: 4rem 0;
+}
+
+.todo-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0 0 2rem 0;
+}
+
+.todo-header h1 {
+	letter-spacing: 5px;
+	color: #ffff;
+}
+
+.input-div-light,
+.input-div-dark {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px 20px;
+	margin: 1rem 0;
+	border-radius: 5px;
+}
+.input-div-light {
+	background: #ffff;
+}
+.input-div-dark {
+	background: hsl(234, 16%, 12%);
+}
+
+.circle {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	border: 1px solid lightgrey;
+}
+.input-div-light .input,
+.input-div-dark .input {
+	width: 90%;
+	border: 0px;
+	outline: 0;
+	height: 2rem;
+}
+.input-div-light .input[type="text"] {
+	color: hsl(236, 9%, 61%);
+	font-size: 1rem;
+}
+.input-div-dark .input[type="text"] {
+	color: hsl(234, 11%, 52%);
+	font-size: 1rem;
+}
+.input::placeholder {
+	font-size: 1.2rem;
+}
+.input-div-dark .input {
+	background: hsl(234, 16%, 12%);
+}
+.input-div-dark .input::placeholder {
+	color: hsl(234, 11%, 52%);
+}
+
+.todo-list-light {
+	background: #ffff;
+}
+.todo-list-dark {
+	background: hsl(234, 16%, 12%);
+	color: hsl(234, 11%, 52%);
+}
+.todo-list-light,
+.todo-list-dark {
+	border-radius: 5px;
+	box-shadow: 0 2.8px 2.2px rgba(0, 0, 0, 0.034), 0 6.7px 5.3px rgba(0, 0, 0, 0.048), 0 12.5px 10px rgba(0, 0, 0, 0.06),
+		0 22.3px 17.9px rgba(0, 0, 0, 0.072), 0 41.8px 33.4px rgba(0, 0, 0, 0.086), 0 100px 80px rgba(0, 0, 0, 0.12);
+}
+
+.todo-list-item-light,
+.todo-list-item-dark {
+	display: flex;
+	padding: 15px 20px;
+	justify-content: space-between;
+	align-items: center;
+}
+.todo-list-item-light {
+	border-bottom: 2px solid lightgrey;
+}
+.todo-list-item-dark {
+	border-bottom: 2px solid hsl(234, 11%, 52%);
+}
+.todo-list-item-light div,
+.todo-list-item-dark div {
+	display: flex;
+	align-items: center;
+}
+.todo-list-item-light p,
+.todo-list-item-dark p {
+	margin-left: 1rem;
+}
+
+.todo-list-bottom {
+	padding: 18px 20px;
+	font-size: 12px;
+}
+.todo-list-bottom,
+.todo-list-bottom div {
+	display: flex;
+	justify-content: space-between;
+}
+
+.todo-list-bottom div p {
+	margin-right: 10px;
+}
+
+.circle-checked {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: linear-gradient(to right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+}
+
+.all-active-completed-mobile {
+	display: none;
+}
+
+@media screen and (max-width: 600px) {
+	.todo-container {
+		width: 90%;
+	}
+
+	.header-light,
+	.header-dark {
+		background-repeat: no-repeat;
+		background-size: cover;
+		height: 200px;
+	}
+	.header-light {
+		background-image: url(../../assets/images/bg-mobile-light.jpg);
+	}
+	.header-dark {
+		background-image: url(../../assets/images/bg-mobile-dark.jpg);
+	}
+
+	.main-light,
+	.main-dark {
+		height: 140vh;
+	}
+
+	.input::placeholder {
+		font-size: 0.9rem;
+	}
+
+	.todo-list-item-light {
+		border-bottom: 1px solid lightgrey;
+	}
+	.todo-list-item-dark {
+		border-bottom: 1px solid hsl(234, 11%, 52%);
+	}
+
+	.todo-list-bottom .all-active-completed-desktop {
+		display: none;
+	}
+	.all-active-completed-mobile {
+		padding: 15px 20px;
+		border-radius: 10px;
+		margin: 1.2rem 0 0 0;
+		display: flex;
+		justify-content: center;
+	}
+	.all-active-completed-mobile p {
+		margin-right: 20px;
+		font-size: 1rem;
+	}
+
+	.light-mode {
+		background: #ffff;
+		color: hsl(234, 11%, 52%);
+	}
+	.dark-mode {
+		background: hsl(234, 16%, 12%);
+		color: hsl(234, 11%, 52%);
+	}
+}
+
+/* @media all and (max-width: 699px) and (min-width: 520px){} */

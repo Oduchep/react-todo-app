@@ -1,53 +1,50 @@
 import React, { useState } from "react";
-import { check, cross, moon, sun } from "../../assets";
+// import { v4 as uuidv4 } from "uuid";
+import { moon, sun } from "../../assets";
+import { ActiveTasks } from "../ActiveTasks";
+import { AllTasks } from "../AllTasks";
+import { CompletedTasks } from "../CompletedTasks";
 import "./Todo.css";
 
 function Todo() {
-	const [todos, setTodos] = useState([]);
-	const [current, setCurrent] = useState("");
-	const [active, setActive] = useState([]);
-	const [completed, setCompleted] = useState([]);
+	const [todos, setTodos] = useState([{ id: 1, text: "Try this app", done: false }]);
+	const [text, setText] = useState("");
+	const [done, setDone] = useState(false);
+	// const [completed, setCompleted] = useState([]);
 	const [toggle, setToggle] = useState({ clicked: false });
-	const [checked, setChecked] = useState({ check: false });
-
-	//input function for list items
-	const handleChange = (e) => {
-		e.preventDefault();
-		setCurrent(e.target.value);
-	};
+	const [onLoad, setOnLoad] = useState(false);
+	const [targetOption, setTargetOption] = useState("");
 
 	//submit function for list item
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		setActive(todos);
-		setTodos([...todos, current]);
-		setActive([...active, current]);
-		setCurrent("");
+
+		if (!text) {
+			alert("Please add task");
+			return;
+		}
+		addItem({ text, done });
+		setText("");
+		setDone(false);
+	};
+
+	//add item to todo list
+	const addItem = (item) => {
+		const id = Math.floor(Math.random() * 10000) + 1;
+		const newTodo = { id, ...item };
+		setTodos([...todos, newTodo]);
+	};
+
+	//delete item from todo list
+	const handleDelete = (id) => {
+		setTodos(todos.filter((item) => item.id !== id));
 
 		console.log(todos);
 	};
 
-	//delete function for list items
-	const handleDelete = (itemIndex) => {
-		const items = todos.filter((c, index) => c[index] !== itemIndex);
-		setTodos(items);
-		setActive(items);
-		console.log(todos);
-	};
-
-	//this function controls completed list items (STILL VERY SHAKY)
-	const handleComplete = (itemIndex) => {
-		const item = todos.filter((c, index) => c[index] == itemIndex);
-		const newItem = item[0];
-
-		const items = todos.filter((c, index) => c[index] !== itemIndex);
-
-		setCompleted([...completed, newItem]);
-		setActive(items);
-		handleChecked();
-
-		console.log(active);
-		console.log(completed);
+	//check done items on todo list
+	const handleComplete = (id) => {
+		setTodos(todos.map((item) => (item.id === id ? { ...item, done: !item.done } : item)));
 	};
 
 	// All the togglers
@@ -55,8 +52,26 @@ function Todo() {
 		setToggle({ clicked: !toggle.clicked });
 	};
 
-	const handleChecked = () => {
-		setChecked({ check: !checked.check });
+	const handleView = (e) => {
+		e.preventDefault();
+		setTargetOption(e.target.id);
+		display();
+		setOnLoad(true);
+	};
+
+	const display = () => {
+		switch (targetOption) {
+			case "one":
+				return <AllTasks todos={todos} toggle={toggle} handleDelete={handleDelete} handleComplete={handleComplete} />;
+
+			case "two":
+				return <ActiveTasks />;
+
+			case "three":
+				return <CompletedTasks />;
+
+			default:
+		}
 	};
 
 	return (
@@ -78,45 +93,39 @@ function Todo() {
 
 					<form className={toggle.clicked ? "input-div-dark" : "input-div-light"} onSubmit={handleSubmit}>
 						<div className="circle"></div>
-						<input className="input" type="text" value={current} placeholder="Create a new todo..." onChange={handleChange} />
+						<input className="input" type="text" value={text} placeholder="Add a new todo..." onChange={(e) => setText(e.target.value)} />
 					</form>
 
 					<div className={toggle.clicked ? "todo-list-dark" : "todo-list-light"}>
-						{todos.map((todo, index) => (
-							<div key={index}>
-								<div className={toggle.clicked ? "todo-list-item-dark" : "todo-list-item-light"}>
-									<div>
-										{checked.check ? (
-											<div className="circle circle-checked hover" onClick={() => handleComplete(todo[index])}>
-												<img className="check-light" src={check} alt="check" />
-											</div>
-										) : (
-											<div className="circle hover" onClick={() => handleComplete(todo[index])}></div>
-										)}
-										<p className={checked.check ? "line-through hover" : "hover"} onClick={() => handleComplete(todo[index])}>
-											{todo}
-										</p>
-									</div>
+						{!onLoad ? <AllTasks todos={todos} toggle={toggle} handleDelete={handleDelete} handleComplete={handleComplete} /> : display(targetOption)}
 
-									<img className="cross hover" src={cross} alt="cross" onClick={() => handleDelete(todo[index])} />
-								</div>
-							</div>
-						))}
 						<div className="todo-list-bottom">
-							<p> {} items left </p>
+							<p> {todos.length} items left </p>
 							<div className="all-active-completed-desktop">
-								<p className="hover"> All </p>
-								<p className="hover"> Active </p>
-								<span className="hover"> Completed </span>
+								<p id="one" className="hover" onClick={handleView}>
+									All
+								</p>
+								<p id="two" className="hover" onClick={handleView}>
+									Active
+								</p>
+								<span id="three" className="hover" onClick={handleView}>
+									Completed
+								</span>
 							</div>
 							<p className="hover"> Clear Completed </p>
 						</div>
 					</div>
 
 					<div className={`all-active-completed-mobile ${toggle.clicked ? "dark-mode" : "light-mode"}`}>
-						<p className="hover"> All </p>
-						<p className="hover"> Active </p>
-						<p className="hover"> Completed </p>
+						<p id="one" className="hover" onClick={handleView}>
+							All
+						</p>
+						<p id="two" className="hover" onClick={handleView}>
+							Active
+						</p>
+						<p id="three" className="hover" onClick={handleView}>
+							Completed
+						</p>
 					</div>
 				</section>
 			</main>

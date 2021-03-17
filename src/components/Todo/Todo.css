@@ -164,6 +164,10 @@
 	display: none;
 }
 
+.todo-list-bottom-clicked {
+	color: hsl(220, 98%, 61%);
+}
+
 @media screen and (max-width: 600px) {
 	.todo-container {
 		width: 90%;

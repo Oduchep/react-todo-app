@@ -10,7 +10,6 @@ function Todo() {
 	const [todos, setTodos] = useState([{ id: 1, text: "Try this app", done: false }]);
 	const [text, setText] = useState("");
 	const [done, setDone] = useState(false);
-	// const [completed, setCompleted] = useState([]);
 	const [toggle, setToggle] = useState({ clicked: false });
 	const [onLoad, setOnLoad] = useState(false);
 	const [targetOption, setTargetOption] = useState("");
@@ -42,9 +41,16 @@ function Todo() {
 		console.log(todos);
 	};
 
-	//check done items on todo list
 	const handleComplete = (id) => {
+		//check done items on todo list
 		setTodos(todos.map((item) => (item.id === id ? { ...item, done: !item.done } : item)));
+	};
+
+	const activeItems = todos.filter((todo) => todo.done === false);
+
+	//to deleted completed items
+	const clearCompleted = () => {
+		setTodos(todos.filter((todo) => todo.done === false));
 	};
 
 	// All the togglers
@@ -65,10 +71,10 @@ function Todo() {
 				return <AllTasks todos={todos} toggle={toggle} handleDelete={handleDelete} handleComplete={handleComplete} />;
 
 			case "two":
-				return <ActiveTasks />;
+				return <ActiveTasks todos={todos} toggle={toggle} />;
 
 			case "three":
-				return <CompletedTasks />;
+				return <CompletedTasks todos={todos} toggle={toggle} />;
 
 			default:
 		}
@@ -100,19 +106,21 @@ function Todo() {
 						{!onLoad ? <AllTasks todos={todos} toggle={toggle} handleDelete={handleDelete} handleComplete={handleComplete} /> : display(targetOption)}
 
 						<div className="todo-list-bottom">
-							<p> {todos.length} items left </p>
+							<p> {activeItems.length} items left </p>
 							<div className="all-active-completed-desktop">
-								<p id="one" className="hover" onClick={handleView}>
+								<p id="one" className={`hover ${targetOption === "one" ? "todo-list-bottom-clicked" : ""}`} onClick={handleView}>
 									All
 								</p>
-								<p id="two" className="hover" onClick={handleView}>
+								<p id="two" className={`hover ${targetOption === "two" ? "todo-list-bottom-clicked" : ""}`} onClick={handleView}>
 									Active
 								</p>
-								<span id="three" className="hover" onClick={handleView}>
+								<span id="three" className={`hover ${targetOption === "three" ? "todo-list-bottom-clicked" : ""}`} onClick={handleView}>
 									Completed
 								</span>
 							</div>
-							<p className="hover"> Clear Completed </p>
+							<p className="hover" onClick={clearCompleted}>
+								Clear Completed
+							</p>
 						</div>
 					</div>
 
